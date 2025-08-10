@@ -11,10 +11,11 @@ export type DualPickerProps = CommonPickerProps & {
   onSelect: (value: { left: string | null; right: string | null }) => void;
 };
 
-const DualPicker: React.FC<DualPickerProps> = ({ onSelect, ...rest }) => {
+const DualPicker: React.FC<DualPickerProps> = ({ onSelect, renderTrigger, ...rest }) => {
   return (
     <WheelPicker
       mode="dual"
+      renderTrigger={renderTrigger}
       onSelect={(v: WheelPickerValue) => {
         if (typeof v === 'object' && v !== null && 'left' in v) {
           const { left, right } = v as any;

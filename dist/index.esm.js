@@ -256,7 +256,8 @@ var WheelPicker = ({
   getCenterItems,
   getRightItemsFromCenter,
   selectedCenter,
-  renderFooterActions
+  renderFooterActions,
+  renderTrigger
 }) => {
   const resolvedMode = mode != null ? mode : dualWheel ? "month-year" : "year";
   const currentYear = (/* @__PURE__ */ new Date()).getFullYear();
@@ -560,7 +561,13 @@ var WheelPicker = ({
     return placeholder;
   }, [resolvedMode, chosenYearRef.current, tempSelectedYear, tempSelectedMonth, gPrimary, gSecondary, placeholder]);
   return /* @__PURE__ */ jsxs(View, { style: WheelPicker_styles_default.root, children: [
-    /* @__PURE__ */ jsxs(
+    renderTrigger ? renderTrigger({
+      open: handleToggleShow,
+      displayText,
+      disabled,
+      onClear: onHandleClearSelection,
+      showCleaner: !!(showCleaner && chosenYearRef.current && !disabled)
+    }) : /* @__PURE__ */ jsxs(
       Pressable,
       {
         onPress: handleToggleShow,
@@ -633,7 +640,7 @@ var WheelPicker_default = WheelPicker;
 
 // src/pickers/YearPicker.tsx
 import { jsx as jsx3 } from "react/jsx-runtime";
-var YearPicker = ({ selectedYear, onSelect, minimum, maximum, ...rest }) => {
+var YearPicker = ({ selectedYear, onSelect, minimum, maximum, renderTrigger, ...rest }) => {
   return /* @__PURE__ */ jsx3(
     WheelPicker_default,
     {
@@ -641,6 +648,7 @@ var YearPicker = ({ selectedYear, onSelect, minimum, maximum, ...rest }) => {
       minimum,
       maximum,
       chosenYear: selectedYear != null ? selectedYear : void 0,
+      renderTrigger,
       onSelect: (v) => {
         var _a;
         if (typeof v === "object" && v !== null && "selectedYear" in v) {
@@ -655,7 +663,7 @@ var YearPicker_default = YearPicker;
 
 // src/pickers/MonthYearPicker.tsx
 import { jsx as jsx4 } from "react/jsx-runtime";
-var MonthYearPicker = ({ selectedDate, onSelect, minimum, maximum, ...rest }) => {
+var MonthYearPicker = ({ selectedDate, onSelect, minimum, maximum, renderTrigger, ...rest }) => {
   return /* @__PURE__ */ jsx4(
     WheelPicker_default,
     {
@@ -663,6 +671,7 @@ var MonthYearPicker = ({ selectedDate, onSelect, minimum, maximum, ...rest }) =>
       minimum,
       maximum,
       selectedDate,
+      renderTrigger,
       onSelect: (v) => {
         if (v instanceof Date) onSelect(v);
       },
@@ -674,13 +683,14 @@ var MonthYearPicker_default = MonthYearPicker;
 
 // src/pickers/ListPicker.tsx
 import { jsx as jsx5 } from "react/jsx-runtime";
-var ListPicker = ({ items, selected, onSelect, ...rest }) => {
+var ListPicker = ({ items, selected, onSelect, renderTrigger, ...rest }) => {
   return /* @__PURE__ */ jsx5(
     WheelPicker_default,
     {
       mode: "single",
       items,
       selectedItem: selected != null ? selected : null,
+      renderTrigger,
       onSelect: (v) => {
         if (typeof v === "string") onSelect(v);
       },
@@ -692,11 +702,12 @@ var ListPicker_default = ListPicker;
 
 // src/pickers/DualPicker.tsx
 import { jsx as jsx6 } from "react/jsx-runtime";
-var DualPicker = ({ onSelect, ...rest }) => {
+var DualPicker = ({ onSelect, renderTrigger, ...rest }) => {
   return /* @__PURE__ */ jsx6(
     WheelPicker_default,
     {
       mode: "dual",
+      renderTrigger,
       onSelect: (v) => {
         if (typeof v === "object" && v !== null && "left" in v) {
           const { left, right } = v;
@@ -737,6 +748,7 @@ var DatePicker = ({
   initialDate,
   locale = "default",
   onSelect,
+  renderTrigger,
   ...rest
 }) => {
   const months = useMemo2(() => {
@@ -764,6 +776,7 @@ var DatePicker = ({
     WheelPicker_default,
     {
       mode: "triple",
+      renderTrigger,
       leftItems: Array.from({ length: maximumYear - minimumYear + 1 }, (_, i) => String(minimumYear + i)),
       getCenterItems: (left) => {
         return months.map(

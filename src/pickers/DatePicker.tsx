@@ -16,6 +16,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
   initialDate,
   locale = 'default',
   onSelect,
+  renderTrigger,
   ...rest
 }) => {
   const months = useMemo(() => {
@@ -45,6 +46,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
   return (
     <WheelPicker
       mode="triple"
+      renderTrigger={renderTrigger}
       leftItems={Array.from({ length: maximumYear - minimumYear + 1 }, (_, i) => String(minimumYear + i))}
       getCenterItems={(left) => {
         return months.map((m) =>

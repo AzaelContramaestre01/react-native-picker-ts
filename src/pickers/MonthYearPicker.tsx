@@ -9,13 +9,14 @@ export type MonthYearPickerProps = CommonPickerProps & {
   onSelect: (value: Date) => void;
 };
 
-const MonthYearPicker: React.FC<MonthYearPickerProps> = ({ selectedDate, onSelect, minimum, maximum, ...rest }) => {
+const MonthYearPicker: React.FC<MonthYearPickerProps> = ({ selectedDate, onSelect, minimum, maximum, renderTrigger, ...rest }) => {
   return (
     <WheelPicker
       mode="month-year"
       minimum={minimum}
       maximum={maximum}
       selectedDate={selectedDate as any}
+      renderTrigger={renderTrigger}
       onSelect={(v: WheelPickerValue) => {
         if (v instanceof Date) onSelect(v);
       }}

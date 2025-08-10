@@ -15,6 +15,7 @@ export type CommonPickerProps = {
   rightActionButtonText?: string;
   showCleaner?: boolean;
   renderFooterActions?: (ctx: { onCancel: () => void; onConfirm: () => void }) => React.ReactNode;
+  renderTrigger?: (ctx: { open: () => void; displayText: string; disabled: boolean }) => React.ReactNode;
 };
 
 

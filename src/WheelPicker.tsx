@@ -68,6 +68,14 @@ export interface WheelPickerProps {
   selectedCenter?: string | null;
   // Custom bottom actions
   renderFooterActions?: (ctx: { onCancel: () => void; onConfirm: () => void }) => React.ReactNode;
+  // Custom trigger renderer (replaces default input box)
+  renderTrigger?: (ctx: {
+    open: () => void;
+    displayText: string;
+    disabled: boolean;
+    onClear: () => void;
+    showCleaner: boolean;
+  }) => React.ReactNode;
 }
 
 const DEFAULT_MONTHS = [
@@ -117,6 +125,7 @@ const WheelPicker: React.FC<WheelPickerProps> = ({
   getRightItemsFromCenter,
   selectedCenter,
   renderFooterActions,
+  renderTrigger,
 }) => {
   const resolvedMode: PickerMode = mode ?? (dualWheel ? 'month-year' : 'year');
   const currentYear = new Date().getFullYear();
@@ -478,22 +487,32 @@ const WheelPicker: React.FC<WheelPickerProps> = ({
 
   return (
     <View style={styles.root}>
-      <Pressable
-        onPress={handleToggleShow}
-        style={[styles.infoDate, disabled && styles.disabledContainer, containerStyle]}
-        pointerEvents={disabled ? 'none' : 'auto'}
-      >
-        <Text style={[styles.date, disabled && styles.disabledText, textStyle]}>{displayText}</Text>
-        <View style={[styles.iconContainer, iconContainerStyle]}>
-          {showCleaner && chosenYearRef.current && !disabled ? (
-            <TouchableOpacity onPress={onHandleClearSelection}>
-              {renderClearIcon ?? <Text style={styles.iconText}>✕</Text>}
-            </TouchableOpacity>
-          ) : (
-            renderCalendarIcon ?? <Text style={[styles.iconText, disabled && styles.disabledIcon]}>🗓️</Text>
-          )}
-        </View>
-      </Pressable>
+      {renderTrigger ? (
+        renderTrigger({
+          open: handleToggleShow,
+          displayText,
+          disabled,
+          onClear: onHandleClearSelection,
+          showCleaner: !!(showCleaner && chosenYearRef.current && !disabled),
+        })
+      ) : (
+        <Pressable
+          onPress={handleToggleShow}
+          style={[styles.infoDate, disabled && styles.disabledContainer, containerStyle]}
+          pointerEvents={disabled ? 'none' : 'auto'}
+        >
+          <Text style={[styles.date, disabled && styles.disabledText, textStyle]}>{displayText}</Text>
+          <View style={[styles.iconContainer, iconContainerStyle]}>
+            {showCleaner && chosenYearRef.current && !disabled ? (
+              <TouchableOpacity onPress={onHandleClearSelection}>
+                {renderClearIcon ?? <Text style={styles.iconText}>✕</Text>}
+              </TouchableOpacity>
+            ) : (
+              renderCalendarIcon ?? <Text style={[styles.iconText, disabled && styles.disabledIcon]}>🗓️</Text>
+            )}
+          </View>
+        </Pressable>
+      )}
 
       <Modal visible={showModal} transparent animationType="fade" onRequestClose={onHandleCloseModal}>
         <View style={styles.modalOverlay}>

@@ -9,13 +9,14 @@ export type YearPickerProps = CommonPickerProps & {
   onSelect: (value: { selectedYear: string | null }) => void;
 };
 
-const YearPicker: React.FC<YearPickerProps> = ({ selectedYear, onSelect, minimum, maximum, ...rest }) => {
+const YearPicker: React.FC<YearPickerProps> = ({ selectedYear, onSelect, minimum, maximum, renderTrigger, ...rest }) => {
   return (
     <WheelPicker
       mode="year"
       minimum={minimum}
       maximum={maximum}
       chosenYear={selectedYear ?? undefined}
+      renderTrigger={renderTrigger}
       onSelect={(v: WheelPickerValue) => {
         if (typeof v === 'object' && v !== null && 'selectedYear' in v) {
           onSelect({ selectedYear: (v as any).selectedYear ?? null });

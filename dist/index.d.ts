@@ -50,6 +50,13 @@ interface WheelPickerProps {
         onCancel: () => void;
         onConfirm: () => void;
     }) => React.ReactNode;
+    renderTrigger?: (ctx: {
+        open: () => void;
+        displayText: string;
+        disabled: boolean;
+        onClear: () => void;
+        showCleaner: boolean;
+    }) => React.ReactNode;
 }
 declare const WheelPicker: React.FC<WheelPickerProps>;
 
@@ -68,6 +75,11 @@ type CommonPickerProps = {
     renderFooterActions?: (ctx: {
         onCancel: () => void;
         onConfirm: () => void;
+    }) => React.ReactNode;
+    renderTrigger?: (ctx: {
+        open: () => void;
+        displayText: string;
+        disabled: boolean;
     }) => React.ReactNode;
 };
 

@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 import React, { useMemo, useState } from 'react';
 import { SafeAreaView, StatusBar, View, Text, TouchableOpacity } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { WheelPicker, DatePicker } from 'react-native-picker-js';
+import { YearPicker, MonthYearPicker, DualPicker, DatePicker } from 'react-native-picker-js';
 import REGIONES_COMUNAS from './data/chile';
 
 type Mode = 'year' | 'month-year' | 'dual' | 'date';
@@ -47,16 +47,38 @@ export default function App() {
             {mode === 'year' && (
               <>
                 <Text style={{ marginBottom: 8 }}>Selected year: {singleYear ?? 'none'}</Text>
-                <WheelPicker
+                <YearPicker
                   minimum={2015}
                   maximum={2025}
-                  mode="year"
-                  placeholder="Select year"
-                  onSelect={(v) => {
-                    if (typeof v === 'object' && v !== null && 'selectedYear' in v) {
-                      setSingleYear((v as { selectedYear: string | null }).selectedYear ?? null);
-                    }
-                  }}
+                  renderTrigger={({ open, displayText }) => (
+                    <View style={{ width: '100%' }}>
+                      <Text style={{ fontSize: 12, color: '#374151', marginBottom: 6, fontWeight: '600' }}>
+                        Año(*)
+                      </Text>
+                      <TouchableOpacity
+                        onPress={open}
+                        activeOpacity={0.8}
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          borderWidth: 1,
+                          borderColor: '#d1d5db',
+                          backgroundColor: '#fff',
+                          paddingHorizontal: 14,
+                          paddingVertical: 12,
+                          borderRadius: 8,
+                          height: 40,
+                        }}
+                      >
+                        <Text style={{ color: '#111827', fontSize: 14 }}>
+                          {displayText || 'Selecciona año'}
+                        </Text>
+                        <View style={{ width: 10, height: 10, borderRightWidth: 2, borderBottomWidth: 2, borderColor: '#6b7280', transform: [{ rotate: '45deg' }] }} />
+                      </TouchableOpacity>
+                    </View>
+                  )}
+                  onSelect={({ selectedYear }) => setSingleYear(selectedYear ?? null)}
                 />
               </>
             )}
@@ -64,14 +86,34 @@ export default function App() {
             {mode === 'month-year' && (
               <>
                 <Text style={{ marginBottom: 8 }}>Selected date: {dualDate?.toISOString() ?? 'none'}</Text>
-                <WheelPicker
+                <MonthYearPicker
                   minimum={2015}
                   maximum={2025}
-                  mode="month-year"
-                  placeholder="Select month and year"
-                  onSelect={(v) => {
-                    if (v instanceof Date) setDualDate(v);
-                  }}
+                  renderTrigger={({ open, displayText }) => (
+                    <View style={{ width: '100%' }}>
+                      <Text style={{ fontSize: 12, color: '#374151', marginBottom: 6, fontWeight: '600' }}>Mes y año</Text>
+                      <TouchableOpacity
+                        onPress={open}
+                        activeOpacity={0.8}
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          borderWidth: 1,
+                          borderColor: '#d1d5db',
+                          backgroundColor: '#fff',
+                          paddingHorizontal: 14,
+                          paddingVertical: 12,
+                          borderRadius: 8,
+                          height: 40,
+                        }}
+                      >
+                        <Text style={{ color: '#111827', fontSize: 14 }}>{displayText || 'Selecciona mes y año'}</Text>
+                        <View style={{ width: 10, height: 10, borderRightWidth: 2, borderBottomWidth: 2, borderColor: '#6b7280', transform: [{ rotate: '45deg' }] }} />
+                      </TouchableOpacity>
+                    </View>
+                  )}
+                  onSelect={(v) => setDualDate(v)}
                 />
               </>
             )}
@@ -79,14 +121,38 @@ export default function App() {
             {mode === 'dual' && (
               <>
                 <Text style={{ marginBottom: 8 }}>Selected: {region ?? '—'} {region && ' / '} {comuna ?? '—'}</Text>
-                <WheelPicker
-                  mode="dual"
-                  placeholder="Select región / comuna"
-                  items={undefined}
+                <DualPicker
+                  placeholder="Selecciona región / comuna"
                   leftItems={regiones}
                   getRightItems={(left) => (left ? comunasByRegion[left] ?? [] : [])}
                   selectedLeft={region}
                   selectedRight={comuna}
+                  renderTrigger={({ open, displayText, disabled }) => (
+                    <View style={{ width: '100%' }}>
+                      <Text style={{ fontSize: 12, color: '#374151', marginBottom: 6, fontWeight: '600' }}>Región(*)</Text>
+                      <TouchableOpacity
+                        onPress={open}
+                        activeOpacity={0.8}
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          borderWidth: 1,
+                          borderColor: '#d1d5db',
+                          backgroundColor: '#fff',
+                          paddingHorizontal: 14,
+                          paddingVertical: 12,
+                          borderRadius: 8,
+                          height: 40,
+                        }}
+                      >
+                        <Text style={{ color: '#111827', fontSize: 14 }}>
+                          {displayText || 'Selecciona región / comuna'}
+                        </Text>
+                        <View style={{ width: 10, height: 10, borderRightWidth: 2, borderBottomWidth: 2, borderColor: '#6b7280', transform: [{ rotate: '45deg' }] }} />
+                      </TouchableOpacity>
+                    </View>
+                  )}
                   onSelect={(v) => {
                     if (typeof v === 'object' && v !== null && 'left' in v) {
                       const { left, right } = v as { left: string | null; right?: string | null };
@@ -105,6 +171,34 @@ export default function App() {
                   minimumYear={2015}
                   maximumYear={2025}
                   onSelect={(d) => setFullDate(d)}
+                  renderTrigger={({ open }) => (
+                    <View style={{ width: '100%' }}>
+                      <Text style={{ fontSize: 12, color: '#374151', marginBottom: 6, fontWeight: '600' }}>Fecha</Text>
+                      <TouchableOpacity
+                        onPress={open}
+                        activeOpacity={0.8}
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          borderWidth: 1,
+                          borderColor: '#d1d5db',
+                          backgroundColor: '#fff',
+                          paddingHorizontal: 14,
+                          paddingVertical: 12,
+                          borderRadius: 8,
+                          height: 40,
+                        }}
+                      >
+                        <Text style={{ color: '#111827', fontSize: 14 }}>
+                          {fullDate
+                            ? `${fullDate.getFullYear()}/${String(fullDate.getMonth() + 1).padStart(2, '0')}/${String(fullDate.getDate()).padStart(2, '0')}`
+                            : 'Selecciona fecha'}
+                        </Text>
+                        <View style={{ width: 10, height: 10, borderRightWidth: 2, borderBottomWidth: 2, borderColor: '#6b7280', transform: [{ rotate: '45deg' }] }} />
+                      </TouchableOpacity>
+                    </View>
+                  )}
                   renderFooterActions={({ onCancel, onConfirm }) => (
                     <View style={{ width: '100%', paddingHorizontal: 40, marginVertical: 10 }}>
                       <TouchableOpacity

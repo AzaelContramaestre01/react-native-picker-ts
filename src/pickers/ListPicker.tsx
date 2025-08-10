@@ -8,12 +8,13 @@ export type ListPickerProps = CommonPickerProps & {
   onSelect: (value: string) => void;
 };
 
-const ListPicker: React.FC<ListPickerProps> = ({ items, selected, onSelect, ...rest }) => {
+const ListPicker: React.FC<ListPickerProps> = ({ items, selected, onSelect, renderTrigger, ...rest }) => {
   return (
     <WheelPicker
       mode="single"
       items={items}
       selectedItem={selected ?? null}
+      renderTrigger={renderTrigger}
       onSelect={(v: WheelPickerValue) => {
         if (typeof v === 'string') onSelect(v);
       }}
