@@ -1,6 +1,6 @@
 {
   "name": "react-native-picker-ts",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A lightweight wheel picker for React Native written in TypeScript (JS runtime)",
   "author": "Azael Contramaestre",
   "license": "MIT",
@@ -9,8 +9,17 @@
     "type": "git",
     "url": "git+https://github.com/AzaelContramaestre01/react-native-picker-ts.git"
   },
-  "bugs": { "url": "https://github.com/AzaelContramaestre01/react-native-picker-ts/issues" },
-  "keywords": ["react-native", "picker", "wheel", "datepicker", "typescript", "reanimated"],
+  "bugs": {
+    "url": "https://github.com/AzaelContramaestre01/react-native-picker-ts/issues"
+  },
+  "keywords": [
+    "react-native",
+    "picker",
+    "wheel",
+    "datepicker",
+    "typescript",
+    "reanimated"
+  ],
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
@@ -25,7 +34,9 @@
     },
     "./package.json": "./package.json"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "sideEffects": false,
   "scripts": {
     "build": "tsup",
@@ -50,7 +61,17 @@
     "react-native-gesture-handler": "^2.12.0",
     "react-native-reanimated": "^3.10.0"
   },
-  "publishConfig": { "access": "public" },
-  "typesVersions": { "*": { "*": ["dist/index.d.ts"] } },
-  "engines": { "node": ">=18.0.0" }
+  "publishConfig": {
+    "access": "public"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ]
+    }
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
 }
