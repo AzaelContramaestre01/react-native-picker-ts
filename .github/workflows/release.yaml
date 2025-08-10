@@ -1,7 +1,8 @@
+# .github/workflows/release.yml
 name: release
 on:
   push:
-    tags: ['v0.1.0*']
+    tags: ['v*']
   workflow_dispatch: {}
 
 jobs:
@@ -16,7 +17,8 @@ jobs:
           registry-url: https://registry.npmjs.org
           cache: 'npm'
 
-      - run: npm ci
+      - name: Install
+        run: npm install
 
       - name: Typecheck
         run: npm run typecheck
