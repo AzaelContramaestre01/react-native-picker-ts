@@ -69,6 +69,20 @@ import { YearPicker, MonthYearPicker, ListPicker, DualPicker, DatePicker } from 
 <DatePicker minimumYear={2015} maximumYear={2025} onSelect={(d) => { /* Date */ }} />
 ```
 
+### Demos
+
+Single/List (YearPicker)
+
+![Single picker](src/assets/gif/SINGLE-PICKER.gif)
+
+Dual (Región/Comuna)
+
+![Dual picker](src/assets/gif/DUAL-PICKER.gif)
+
+Triple (example usage)
+
+![Triple picker](src/assets/gif/TRIAL-PICKER.gif)
+
 ### Components and returned types
 
 - YearPicker
@@ -191,36 +205,37 @@ Common customization
 - styles: containerStyle, textStyle, iconContainerStyle
 - actions: actionButtonsPosition, leftActionButtonText, rightActionButtonText, showCleaner, renderFooterActions
 
-### Local testing in another app
+### Customize the input (trigger)
 
-Option A – tarball install (recommended for RN)
-```bash
-# in this repo
-npm run build
-npm pack   # produces react-native-picker-js-<version>.tgz
+You can fully control how the input box looks with `renderTrigger`. This replaces the default trigger UI.
 
-# in your target app
-npm install ../path/to/react-native-picker-js-<version>.tgz
+```tsx
+<DualPicker
+  leftItems={["Valparaíso", "Ñuble"]}
+  getRightItems={(left) => (left === 'Ñuble' ? ['San Carlos', 'Chillán'] : ['Papudo'])}
+  renderTrigger={({ open, displayText, disabled }) => (
+    <TouchableOpacity
+      onPress={open}
+      disabled={disabled}
+      style={{
+        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+        borderWidth: 1, borderColor: '#d1d5db', backgroundColor: '#fff',
+        paddingHorizontal: 14, paddingVertical: 12, borderRadius: 8,
+      }}
+    >
+      <Text style={{ color: '#111827' }}>
+        {displayText || 'Selecciona región / comuna'}
+      </Text>
+      <View style={{ width: 10, height: 10, borderRightWidth: 2, borderBottomWidth: 2, borderColor: '#6b7280', transform: [{ rotate: '45deg' }] }} />
+    </TouchableOpacity>
+  )}
+  onSelect={({ left, right }) => {}}
+/>}
+
 ```
 
-Option B – file path dependency
-```json
-// in your app's package.json
-{
-  "dependencies": {
-    "react-native-picker-js": "file:../react-native-picker-js"
-  }
-}
-```
-Then run install and rebuild the app. Avoid classic npm/yarn link in RN (Metro can misresolve symlinks).
+For small tweaks without replacing the trigger, use the style props `containerStyle`, `textStyle`, `iconContainerStyle`, and the boolean `showRightIcon` (default: true).
 
-### Scripts / CI
-
-```bash
-npm run build         # build CJS/ESM + types
-npm run typecheck     # tsc --noEmit
-npm run lint          # eslint .
-npm publish           # prepublishOnly hooks: build + typecheck
 ```
 
 ### License
