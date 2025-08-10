@@ -1,6 +1,6 @@
 {
   "name": "react-native-picker-ts",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "A lightweight wheel picker for React Native written in TypeScript (JS runtime)",
   "author": "Azael Contramaestre",
   "license": "MIT",
