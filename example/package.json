@@ -1,0 +1,22 @@
+{
+  "name": "react-native-picker-js-example",
+  "private": true,
+  "version": "0.0.0",
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start --port 8082 --lan",
+    "start:lan": "expo start --port 8082 --lan",
+    "start:tunnel": "expo start --port 8082 --tunnel",
+    "android": "expo run:android",
+    "ios": "expo run:ios"
+  },
+  "dependencies": {
+    "expo": "^53.0.20",
+    "expo-status-bar": "~1.12.1",
+    "react": "19.0.0",
+    "react-native": "0.79.5",
+    "react-native-gesture-handler": "~2.24.0",
+    "react-native-picker-js": "file:..",
+    "react-native-reanimated": "~3.17.4"
+  }
+}

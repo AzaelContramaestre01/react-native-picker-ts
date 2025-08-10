@@ -1,0 +1,57 @@
+{
+  "name": "react-native-picker-js",
+  "version": "0.1.0",
+  "description": "A lightweight wheel picker for React Native written in TypeScript (JS runtime)",
+  "author": "Azael",
+  "license": "MIT",
+  "homepage": "",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "bugs": {
+    "url": ""
+  },
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "react-native": "dist/index.cjs.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "react-native": "./dist/index.cjs.js",
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.cjs.js",
+      "default": "./dist/index.esm.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "clean": "rimraf dist",
+    "dev:example": "concurrently \"npm:dev\" \"npm run start --prefix example\"",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "prepublishOnly": "npm run build && npm run typecheck"
+  },
+  "peerDependencies": {
+    "react": ">=17",
+    "react-native": ">=0.71",
+    "react-native-gesture-handler": ">=2.0.0",
+    "react-native-reanimated": ">=3.0.0"
+  },
+  "devDependencies": {
+    "@tsconfig/react-native": "^3.0.6",
+    "@types/node": "^24.2.1",
+    "@types/react": "^19.1.9",
+    "@types/react-native": "^0.72.8",
+    "concurrently": "^8.2.2",
+    "rimraf": "^5.0.5",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.2"
+  }
+}
