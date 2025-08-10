@@ -13,9 +13,9 @@ Lightweight, animated wheel pickers for React Native (TypeScript, pure JS).
 ### 📦 Installation
 
 ```bash
-npm install react-native-picker-js
+npm install react-native-picker-ts
 # or
-yarn add react-native-picker-js
+yarn add react-native-picker-ts
 ```
 
 Peer dependencies (install in your app):
