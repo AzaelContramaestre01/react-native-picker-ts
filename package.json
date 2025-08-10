@@ -48,9 +48,11 @@
     "prepublishOnly": "npm run build && npm run typecheck"
   },
   "devDependencies": {
+    "@tsconfig/react-native": "^3.0.6",
     "@types/node": "^20.11.0",
     "@types/react": "^18.2.66",
     "@types/react-native": "^0.73.0",
+    "concurrently": "^9.2.0",
     "eslint": "^8.57.0",
     "tsup": "^8.0.2",
     "typescript": "^5.4.5"

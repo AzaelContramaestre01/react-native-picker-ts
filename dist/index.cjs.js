@@ -545,12 +545,27 @@ var WheelPicker = ({
       setShowModal(!showModal);
     }
   }, [showModal, disabled]);
-  const renderWheel = (0, import_react3.useCallback)((data, setSelectedValue, scrollY, ref) => {
+  const setYearRef = (0, import_react3.useCallback)((node) => {
+    scrollViewRefYear.current = node;
+  }, []);
+  const setMonthRef = (0, import_react3.useCallback)((node) => {
+    scrollViewRefMonth.current = node;
+  }, []);
+  const setLeftRef = (0, import_react3.useCallback)((node) => {
+    scrollViewRefLeft.current = node;
+  }, []);
+  const setCenterRef = (0, import_react3.useCallback)((node) => {
+    scrollViewRefCenter.current = node;
+  }, []);
+  const setRightRef = (0, import_react3.useCallback)((node) => {
+    scrollViewRefRight.current = node;
+  }, []);
+  const renderWheel = (0, import_react3.useCallback)((data, setSelectedValue, scrollY, refCb) => {
     try {
       return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_react_native_gesture_handler.PanGestureHandler, { children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
         import_react_native_reanimated2.default.ScrollView,
         {
-          ref,
+          ref: refCb,
           showsVerticalScrollIndicator: false,
           snapToInterval: ITEM_HEIGHT4,
           decelerationRate: "fast",
@@ -624,42 +639,42 @@ var WheelPicker = ({
         /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_react_native3.View, { style: WheelPicker_styles_default.wheelContainer, children: [
           resolvedMode === "month-year" && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_react_native3.View, { style: [WheelPicker_styles_default.wheelRowLeft, WheelPicker_styles_default.wheelColumn], children: [
             /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_react_native3.View, { style: WheelPicker_styles_default.selectionOverlay, pointerEvents: "none" }),
-            renderWheel(filteredMonthsList, setTempSelectedMonth, scrollYMonth, scrollViewRefMonth)
+            renderWheel(filteredMonthsList, setTempSelectedMonth, scrollYMonth, setMonthRef)
           ] }),
           resolvedMode === "year" && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_react_native3.View, { style: [WheelPicker_styles_default.wheelRow, WheelPicker_styles_default.wheelColumn], children: [
             /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_react_native3.View, { style: WheelPicker_styles_default.selectionOverlay, pointerEvents: "none" }),
-            renderWheel(yearsList, (val) => setTempSelectedYear(val), scrollYYear, scrollViewRefYear)
+            renderWheel(yearsList, (val) => setTempSelectedYear(val), scrollYYear, setYearRef)
           ] }),
           resolvedMode === "month-year" && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_react_native3.View, { style: [WheelPicker_styles_default.wheelRowRight, WheelPicker_styles_default.wheelColumn], children: [
             /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_react_native3.View, { style: WheelPicker_styles_default.selectionOverlay, pointerEvents: "none" }),
-            renderWheel(yearsList, (val) => setTempSelectedYear(val), scrollYYear, scrollViewRefYear)
+            renderWheel(yearsList, (val) => setTempSelectedYear(val), scrollYYear, setYearRef)
           ] }),
           resolvedMode === "single" && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_react_native3.View, { style: [WheelPicker_styles_default.wheelRow, WheelPicker_styles_default.wheelColumn], children: [
             /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_react_native3.View, { style: WheelPicker_styles_default.selectionOverlay, pointerEvents: "none" }),
-            renderWheel(genericPrimaryList, (val) => setGPrimary(val), scrollYYear, scrollViewRefYear)
+            renderWheel(genericPrimaryList, (val) => setGPrimary(val), scrollYYear, setYearRef)
           ] }),
           resolvedMode === "dual" && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_jsx_runtime2.Fragment, { children: [
             /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_react_native3.View, { style: [WheelPicker_styles_default.wheelRowLeft, WheelPicker_styles_default.wheelColumn], children: [
               /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_react_native3.View, { style: WheelPicker_styles_default.selectionOverlay, pointerEvents: "none" }),
-              renderWheel(genericPrimaryList, (val) => setGPrimary(val), scrollYMonth, scrollViewRefMonth)
+              renderWheel(genericPrimaryList, (val) => setGPrimary(val), scrollYMonth, setMonthRef)
             ] }),
             /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_react_native3.View, { style: [WheelPicker_styles_default.wheelRowRight, WheelPicker_styles_default.wheelColumn], children: [
               /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_react_native3.View, { style: WheelPicker_styles_default.selectionOverlay, pointerEvents: "none" }),
-              renderWheel(genericSecondaryList, (val) => setGSecondary(val), scrollYYear, scrollViewRefYear)
+              renderWheel(genericSecondaryList, (val) => setGSecondary(val), scrollYYear, setYearRef)
             ] })
           ] }),
           resolvedMode === "triple" && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_jsx_runtime2.Fragment, { children: [
             /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_react_native3.View, { style: [WheelPicker_styles_default.wheelRowLeft, WheelPicker_styles_default.wheelColumn], children: [
               /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_react_native3.View, { style: WheelPicker_styles_default.selectionOverlay, pointerEvents: "none" }),
-              renderWheel(genericPrimaryList, (val) => setGPrimary(val), scrollYLeft, scrollViewRefLeft)
+              renderWheel(genericPrimaryList, (val) => setGPrimary(val), scrollYLeft, setLeftRef)
             ] }),
             /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_react_native3.View, { style: [WheelPicker_styles_default.wheelRow, WheelPicker_styles_default.wheelColumn], children: [
               /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_react_native3.View, { style: WheelPicker_styles_default.selectionOverlay, pointerEvents: "none" }),
-              renderWheel(genericCenterList, (val) => setGSecondary(val), scrollYCenter, scrollViewRefCenter)
+              renderWheel(genericCenterList, (val) => setGSecondary(val), scrollYCenter, setCenterRef)
             ] }),
             /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_react_native3.View, { style: [WheelPicker_styles_default.wheelRowRight, WheelPicker_styles_default.wheelColumn], children: [
               /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_react_native3.View, { style: WheelPicker_styles_default.selectionOverlay, pointerEvents: "none" }),
-              renderWheel(genericSecondaryList, (val) => setTempSelectedMonth(val), scrollYRight, scrollViewRefRight)
+              renderWheel(genericSecondaryList, (val) => setTempSelectedMonth(val), scrollYRight, setRightRef)
             ] })
           ] })
         ] }),

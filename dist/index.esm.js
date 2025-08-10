@@ -510,12 +510,27 @@ var WheelPicker = ({
       setShowModal(!showModal);
     }
   }, [showModal, disabled]);
-  const renderWheel = useCallback((data, setSelectedValue, scrollY, ref) => {
+  const setYearRef = useCallback((node) => {
+    scrollViewRefYear.current = node;
+  }, []);
+  const setMonthRef = useCallback((node) => {
+    scrollViewRefMonth.current = node;
+  }, []);
+  const setLeftRef = useCallback((node) => {
+    scrollViewRefLeft.current = node;
+  }, []);
+  const setCenterRef = useCallback((node) => {
+    scrollViewRefCenter.current = node;
+  }, []);
+  const setRightRef = useCallback((node) => {
+    scrollViewRefRight.current = node;
+  }, []);
+  const renderWheel = useCallback((data, setSelectedValue, scrollY, refCb) => {
     try {
       return /* @__PURE__ */ jsx2(PanGestureHandler, { children: /* @__PURE__ */ jsx2(
         Animated2.ScrollView,
         {
-          ref,
+          ref: refCb,
           showsVerticalScrollIndicator: false,
           snapToInterval: ITEM_HEIGHT4,
           decelerationRate: "fast",
@@ -589,42 +604,42 @@ var WheelPicker = ({
         /* @__PURE__ */ jsxs(View, { style: WheelPicker_styles_default.wheelContainer, children: [
           resolvedMode === "month-year" && /* @__PURE__ */ jsxs(View, { style: [WheelPicker_styles_default.wheelRowLeft, WheelPicker_styles_default.wheelColumn], children: [
             /* @__PURE__ */ jsx2(View, { style: WheelPicker_styles_default.selectionOverlay, pointerEvents: "none" }),
-            renderWheel(filteredMonthsList, setTempSelectedMonth, scrollYMonth, scrollViewRefMonth)
+            renderWheel(filteredMonthsList, setTempSelectedMonth, scrollYMonth, setMonthRef)
           ] }),
           resolvedMode === "year" && /* @__PURE__ */ jsxs(View, { style: [WheelPicker_styles_default.wheelRow, WheelPicker_styles_default.wheelColumn], children: [
             /* @__PURE__ */ jsx2(View, { style: WheelPicker_styles_default.selectionOverlay, pointerEvents: "none" }),
-            renderWheel(yearsList, (val) => setTempSelectedYear(val), scrollYYear, scrollViewRefYear)
+            renderWheel(yearsList, (val) => setTempSelectedYear(val), scrollYYear, setYearRef)
           ] }),
           resolvedMode === "month-year" && /* @__PURE__ */ jsxs(View, { style: [WheelPicker_styles_default.wheelRowRight, WheelPicker_styles_default.wheelColumn], children: [
             /* @__PURE__ */ jsx2(View, { style: WheelPicker_styles_default.selectionOverlay, pointerEvents: "none" }),
-            renderWheel(yearsList, (val) => setTempSelectedYear(val), scrollYYear, scrollViewRefYear)
+            renderWheel(yearsList, (val) => setTempSelectedYear(val), scrollYYear, setYearRef)
           ] }),
           resolvedMode === "single" && /* @__PURE__ */ jsxs(View, { style: [WheelPicker_styles_default.wheelRow, WheelPicker_styles_default.wheelColumn], children: [
             /* @__PURE__ */ jsx2(View, { style: WheelPicker_styles_default.selectionOverlay, pointerEvents: "none" }),
-            renderWheel(genericPrimaryList, (val) => setGPrimary(val), scrollYYear, scrollViewRefYear)
+            renderWheel(genericPrimaryList, (val) => setGPrimary(val), scrollYYear, setYearRef)
           ] }),
           resolvedMode === "dual" && /* @__PURE__ */ jsxs(Fragment, { children: [
             /* @__PURE__ */ jsxs(View, { style: [WheelPicker_styles_default.wheelRowLeft, WheelPicker_styles_default.wheelColumn], children: [
               /* @__PURE__ */ jsx2(View, { style: WheelPicker_styles_default.selectionOverlay, pointerEvents: "none" }),
-              renderWheel(genericPrimaryList, (val) => setGPrimary(val), scrollYMonth, scrollViewRefMonth)
+              renderWheel(genericPrimaryList, (val) => setGPrimary(val), scrollYMonth, setMonthRef)
             ] }),
             /* @__PURE__ */ jsxs(View, { style: [WheelPicker_styles_default.wheelRowRight, WheelPicker_styles_default.wheelColumn], children: [
               /* @__PURE__ */ jsx2(View, { style: WheelPicker_styles_default.selectionOverlay, pointerEvents: "none" }),
-              renderWheel(genericSecondaryList, (val) => setGSecondary(val), scrollYYear, scrollViewRefYear)
+              renderWheel(genericSecondaryList, (val) => setGSecondary(val), scrollYYear, setYearRef)
             ] })
           ] }),
           resolvedMode === "triple" && /* @__PURE__ */ jsxs(Fragment, { children: [
             /* @__PURE__ */ jsxs(View, { style: [WheelPicker_styles_default.wheelRowLeft, WheelPicker_styles_default.wheelColumn], children: [
               /* @__PURE__ */ jsx2(View, { style: WheelPicker_styles_default.selectionOverlay, pointerEvents: "none" }),
-              renderWheel(genericPrimaryList, (val) => setGPrimary(val), scrollYLeft, scrollViewRefLeft)
+              renderWheel(genericPrimaryList, (val) => setGPrimary(val), scrollYLeft, setLeftRef)
             ] }),
             /* @__PURE__ */ jsxs(View, { style: [WheelPicker_styles_default.wheelRow, WheelPicker_styles_default.wheelColumn], children: [
               /* @__PURE__ */ jsx2(View, { style: WheelPicker_styles_default.selectionOverlay, pointerEvents: "none" }),
-              renderWheel(genericCenterList, (val) => setGSecondary(val), scrollYCenter, scrollViewRefCenter)
+              renderWheel(genericCenterList, (val) => setGSecondary(val), scrollYCenter, setCenterRef)
             ] }),
             /* @__PURE__ */ jsxs(View, { style: [WheelPicker_styles_default.wheelRowRight, WheelPicker_styles_default.wheelColumn], children: [
               /* @__PURE__ */ jsx2(View, { style: WheelPicker_styles_default.selectionOverlay, pointerEvents: "none" }),
-              renderWheel(genericSecondaryList, (val) => setTempSelectedMonth(val), scrollYRight, scrollViewRefRight)
+              renderWheel(genericSecondaryList, (val) => setTempSelectedMonth(val), scrollYRight, setRightRef)
             ] })
           ] })
         ] }),

@@ -414,17 +414,34 @@ const WheelPicker: React.FC<WheelPickerProps> = ({
     }
   }, [showModal, disabled]);
 
+  // Stable callback refs to satisfy typing and keep .current usage
+  const setYearRef = useCallback((node: Animated.ScrollView | null) => {
+    scrollViewRefYear.current = node;
+  }, []);
+  const setMonthRef = useCallback((node: Animated.ScrollView | null) => {
+    scrollViewRefMonth.current = node;
+  }, []);
+  const setLeftRef = useCallback((node: Animated.ScrollView | null) => {
+    scrollViewRefLeft.current = node;
+  }, []);
+  const setCenterRef = useCallback((node: Animated.ScrollView | null) => {
+    scrollViewRefCenter.current = node;
+  }, []);
+  const setRightRef = useCallback((node: Animated.ScrollView | null) => {
+    scrollViewRefRight.current = node;
+  }, []);
+
   const renderWheel = useCallback((
     data: string[],
     setSelectedValue: (value: string) => void,
     scrollY: SharedValue<number>,
-    ref: React.RefObject<Animated.ScrollView | null>,
+    refCb: (node: Animated.ScrollView | null) => void,
   ) => {
     try {
       return (
         <PanGestureHandler>
           <Animated.ScrollView
-            ref={ref}
+            ref={refCb}
             showsVerticalScrollIndicator={false}
             snapToInterval={ITEM_HEIGHT}
             decelerationRate="fast"
@@ -532,36 +549,36 @@ const WheelPicker: React.FC<WheelPickerProps> = ({
               {resolvedMode === 'month-year' && (
                 <View style={[styles.wheelRowLeft, styles.wheelColumn]}>
                   <View style={styles.selectionOverlay} pointerEvents="none" />
-                  {renderWheel(filteredMonthsList, setTempSelectedMonth as any, scrollYMonth, scrollViewRefMonth)}
+                  {renderWheel(filteredMonthsList, setTempSelectedMonth as any, scrollYMonth, setMonthRef)}
                 </View>
               )}
               {resolvedMode === 'year' && (
                 <View style={[styles.wheelRow, styles.wheelColumn]}>
                   <View style={styles.selectionOverlay} pointerEvents="none" />
-                  {renderWheel(yearsList, (val) => setTempSelectedYear(val), scrollYYear, scrollViewRefYear)}
+                  {renderWheel(yearsList, (val) => setTempSelectedYear(val), scrollYYear, setYearRef)}
                 </View>
               )}
               {resolvedMode === 'month-year' && (
                 <View style={[styles.wheelRowRight, styles.wheelColumn]}>
                   <View style={styles.selectionOverlay} pointerEvents="none" />
-                  {renderWheel(yearsList, (val) => setTempSelectedYear(val), scrollYYear, scrollViewRefYear)}
+                  {renderWheel(yearsList, (val) => setTempSelectedYear(val), scrollYYear, setYearRef)}
                 </View>
               )}
               {resolvedMode === 'single' && (
                 <View style={[styles.wheelRow, styles.wheelColumn]}>
                   <View style={styles.selectionOverlay} pointerEvents="none" />
-                  {renderWheel(genericPrimaryList, (val) => setGPrimary(val), scrollYYear, scrollViewRefYear)}
+                  {renderWheel(genericPrimaryList, (val) => setGPrimary(val), scrollYYear, setYearRef)}
                 </View>
               )}
               {resolvedMode === 'dual' && (
                 <>
                   <View style={[styles.wheelRowLeft, styles.wheelColumn]}>
                     <View style={styles.selectionOverlay} pointerEvents="none" />
-                    {renderWheel(genericPrimaryList, (val) => setGPrimary(val), scrollYMonth, scrollViewRefMonth)}
+                    {renderWheel(genericPrimaryList, (val) => setGPrimary(val), scrollYMonth, setMonthRef)}
                   </View>
                   <View style={[styles.wheelRowRight, styles.wheelColumn]}>
                     <View style={styles.selectionOverlay} pointerEvents="none" />
-                    {renderWheel(genericSecondaryList, (val) => setGSecondary(val), scrollYYear, scrollViewRefYear)}
+                    {renderWheel(genericSecondaryList, (val) => setGSecondary(val), scrollYYear, setYearRef)}
                   </View>
                 </>
               )}
@@ -569,15 +586,15 @@ const WheelPicker: React.FC<WheelPickerProps> = ({
                 <>
                   <View style={[styles.wheelRowLeft, styles.wheelColumn]}>
                     <View style={styles.selectionOverlay} pointerEvents="none" />
-                    {renderWheel(genericPrimaryList, (val) => setGPrimary(val), scrollYLeft, scrollViewRefLeft)}
+                    {renderWheel(genericPrimaryList, (val) => setGPrimary(val), scrollYLeft, setLeftRef)}
                   </View>
                   <View style={[styles.wheelRow, styles.wheelColumn]}>
                     <View style={styles.selectionOverlay} pointerEvents="none" />
-                    {renderWheel(genericCenterList, (val) => setGSecondary(val), scrollYCenter, scrollViewRefCenter)}
+                    {renderWheel(genericCenterList, (val) => setGSecondary(val), scrollYCenter, setCenterRef)}
                   </View>
                   <View style={[styles.wheelRowRight, styles.wheelColumn]}>
                     <View style={styles.selectionOverlay} pointerEvents="none" />
-                    {renderWheel(genericSecondaryList, (val) => setTempSelectedMonth(val), scrollYRight, scrollViewRefRight)}
+                    {renderWheel(genericSecondaryList, (val) => setTempSelectedMonth(val), scrollYRight, setRightRef)}
                   </View>
                 </>
               )}
