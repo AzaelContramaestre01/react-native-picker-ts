@@ -810,7 +810,7 @@ var DatePicker = ({
         const year = left ? parseInt(left, 10) : initial.year;
         return daysFor(year, monthIndex);
       },
-      renderFooterActions: ({ onCancel, onConfirm }) => /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_jsx_runtime8.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { style: { height: 12 } }) }),
+      renderFooterActions: () => null,
       onSelect: (v) => {
         if (typeof v === "object" && v !== null && "left" in v) {
           const left = v.left;

@@ -7,3 +7,4 @@ bun.lock
 bun.lockb
 bun.lock
 .cursor
+dist/

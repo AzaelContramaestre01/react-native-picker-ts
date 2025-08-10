@@ -730,7 +730,7 @@ var TriplePicker_default = TriplePicker;
 
 // src/pickers/DatePicker.tsx
 import { useMemo as useMemo2 } from "react";
-import { Fragment as Fragment2, jsx as jsx8 } from "react/jsx-runtime";
+import { jsx as jsx8 } from "react/jsx-runtime";
 var DatePicker = ({
   minimumYear,
   maximumYear,
@@ -775,7 +775,7 @@ var DatePicker = ({
         const year = left ? parseInt(left, 10) : initial.year;
         return daysFor(year, monthIndex);
       },
-      renderFooterActions: ({ onCancel, onConfirm }) => /* @__PURE__ */ jsx8(Fragment2, { children: /* @__PURE__ */ jsx8("div", { style: { height: 12 } }) }),
+      renderFooterActions: () => null,
       onSelect: (v) => {
         if (typeof v === "object" && v !== null && "left" in v) {
           const left = v.left;
