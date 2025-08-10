@@ -1,8 +1,16 @@
-## react-native-picker-js
+### react-native-picker-js
 
-Lightweight, animated wheel pickers for React Native (TypeScript, pure JS). Includes ready-to-use pickers for year, month+year, generic lists, dual lists (e.g., región/comuna), and a DatePicker (day/month/year).
+Lightweight, animated wheel pickers for React Native (TypeScript, pure JS).
 
-### Install
+[![npm version](https://img.shields.io/npm/v/react-native-picker-js.svg?label=npm%20version)](https://www.npmjs.com/package/react-native-picker-js) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
+### 🎬 Showcase
+
+| Single (Year) | Dual (Region/Commune) | Triple (Example) |
+| --- | --- | --- |
+| ![Single](https://raw.githubusercontent.com/AzaelContramaestre01/react-native-picker-ts/main/src/assets/gif/SINGLE-PICKER.gif) | ![Dual](https://raw.githubusercontent.com/AzaelContramaestre01/react-native-picker-ts/main/src/assets/gif/DUAL-PICKER.gif) | ![Triple](https://raw.githubusercontent.com/AzaelContramaestre01/react-native-picker-ts/main/src/assets/gif/TRIAL-PICKER.gif) |
+
+### 📦 Installation
 
 ```bash
 npm install react-native-picker-js
@@ -16,9 +24,9 @@ Peer dependencies (install in your app):
 - react-native-reanimated (^3.10)
 - react-native-gesture-handler (^2.12)
 
-### Setup
+### 🛠️ Setup
 
-1) Babel plugin for Reanimated
+1) Add Reanimated Babel plugin
 
 ```js
 // babel.config.js
@@ -28,7 +36,7 @@ module.exports = {
 };
 ```
 
-2) Gesture Handler top-level import and RootView
+2) Import Gesture Handler at the top-level and wrap your app
 
 ```tsx
 // index.js or App.tsx
@@ -44,170 +52,101 @@ export default function App() {
 }
 ```
 
-### Quick start
+### ⚡ Quick Start
 
 ```tsx
 import { YearPicker, MonthYearPicker, ListPicker, DualPicker, DatePicker } from 'react-native-picker-js';
 
-// Year only
-<YearPicker minimum={2015} maximum={2025} onSelect={({ selectedYear }) => { /* string|null */ }} />
+// Year only → { selectedYear: string | null }
+<YearPicker minimum={2015} maximum={2025} onSelect={({ selectedYear }) => {}} />
 
-// Month + Year → returns Date (first day of month)
-<MonthYearPicker minimum={2015} maximum={2025} onSelect={(d) => { /* Date */ }} />
+// Month + Year → Date (first day of selected month)
+<MonthYearPicker minimum={2015} maximum={2025} onSelect={(d) => {}} />
 
 // Generic single list → string
-<ListPicker items={["One", "Two", "Three"]} onSelect={(v) => { /* string */ }} />
+<ListPicker items={["One", "Two", "Three"]} onSelect={(v) => {}} />
 
-// Dual list (e.g., Región / Comuna) → { left, right }
+// Dual (e.g., Region / Commune) → { left, right }
 <DualPicker
   leftItems={["Ñuble", "Biobío"]}
-  getRightItems={(left) => left === 'Ñuble' ? ['San Carlos', 'Chillán'] : ['Concepción']}
-  onSelect={({ left, right }) => { /* strings|null */ }}
+  getRightItems={(left) => (left === 'Ñuble' ? ['San Carlos', 'Chillán'] : ['Concepción'])}
+  onSelect={({ left, right }) => {}}
 />
 
-// Full DatePicker (Day / Month / Year) → Date
-<DatePicker minimumYear={2015} maximumYear={2025} onSelect={(d) => { /* Date */ }} />
+// Full Date (Day / Month / Year) → Date
+<DatePicker minimumYear={2015} maximumYear={2025} onSelect={(d) => {}} />
 ```
 
-### Demos
-
-Single/List (YearPicker)
-
-![Single picker](src/assets/gif/SINGLE-PICKER.gif)
-
-Dual (Región/Comuna)
-
-![Dual picker](src/assets/gif/DUAL-PICKER.gif)
-
-Triple (example usage)
-
-![Triple picker](src/assets/gif/TRIAL-PICKER.gif)
-
-### Components and returned types
-
-- YearPicker
-  - onSelect: ({ selectedYear: string | null }) => void
-  - props: minimum, maximum, plus Common props
-
-- MonthYearPicker
-  - onSelect: (date: Date) => void
-  - props: minimum, maximum, plus Common props
-
-- ListPicker
-  - onSelect: (value: string) => void
-  - props: items, selected, plus Common props
-
-- DualPicker
-  - onSelect: ({ left: string | null, right: string | null }) => void
-  - props: leftItems, rightItems?, getRightItems?(left) → string[], selectedLeft?, selectedRight?, plus Common props
-
-- DatePicker
-  - onSelect: (date: Date) => void
-  - props: minimumYear, maximumYear, initialDate?, locale?, plus Common props
+### 🧩 Components & Props
 
 Common props (available in all pickers):
-- placeholder?: string
-- disabled?: boolean
-- renderCalendarIcon?: React.ReactNode
-- renderClearIcon?: React.ReactNode
-- containerStyle?: ViewStyle
-- textStyle?: TextStyle
-- iconContainerStyle?: ViewStyle
-- actionButtonsPosition?: 'top' | 'bottom'
-- leftActionButtonText?: string
-- rightActionButtonText?: string
-- showCleaner?: boolean
-- renderFooterActions?: ({ onCancel, onConfirm }) => React.ReactNode (override footer)
 
-### Example app (Expo)
+| Prop | Type | Description |
+| --- | --- | --- |
+| `placeholder` | string | Placeholder text in the trigger |
+| `disabled` | boolean | Disables the trigger/input |
+| `renderCalendarIcon` | React.ReactNode | Custom left icon in trigger |
+| `renderClearIcon` | React.ReactNode | Custom right/clear icon in trigger |
+| `containerStyle` | ViewStyle | Style for the trigger container |
+| `textStyle` | TextStyle | Style for the trigger text |
+| `iconContainerStyle` | ViewStyle | Style for the trigger icon wrapper |
+| `actionButtonsPosition` | 'top' or 'bottom' | Where to place action buttons |
+| `leftActionButtonText` | string | Text for cancel button |
+| `rightActionButtonText` | string | Text for confirm button |
+| `showCleaner` | boolean | Show a clear button inside the modal |
+| `renderFooterActions` | ({ onCancel, onConfirm }) => React.ReactNode | Replace footer actions |
+| `renderTrigger` | ({ open, displayText, disabled }) => React.ReactNode | Fully control the input trigger UI |
 
-This repo includes an `example/` Expo app wired to the local package.
+YearPicker
 
-```bash
-# from repo root
-npm install
-cd example && npm install && cd ..
-npm run dev:example
-```
+| Prop | Type | Required |
+| --- | --- | --- |
+| `minimum` | number | yes |
+| `maximum` | number | yes |
+| `selectedYear` | string or null | no |
+| `onSelect` | ({ selectedYear: string | null }) => void | yes |
 
-The script runs the library watch build and Expo dev server. Edit code in `src/` and the example hot-reloads.
+MonthYearPicker
 
-### Use in your app (bare RN or Expo)
+| Prop | Type | Required |
+| --- | --- | --- |
+| `minimum` | number | yes |
+| `maximum` | number | yes |
+| `selectedDate` | Date or string | no |
+| `onSelect` | (value: Date) => void | yes |
 
-1) Install deps and follow Setup above (Reanimated plugin + Gesture Handler RootView)
+ListPicker
 
-2) Import a picker and render it where needed
+| Prop | Type | Required |
+| --- | --- | --- |
+| `items` | string[] | yes |
+| `selected` | string or null | no |
+| `onSelect` | (value: string) => void | yes |
 
-```tsx
-import { DualPicker } from 'react-native-picker-js';
+DualPicker
 
-const REGIONES: string[] = ['Valparaíso', 'Ñuble', 'Metropolitana'];
-const COMUNAS: Record<string, string[]> = {
-  Valparaíso: ['Papudo', 'Zapallar', 'Los Andes'],
-  'Ñuble': ['San Carlos', 'Chillán', 'Ninhue'],
-  Metropolitana: ['Santiago', 'Puente Alto', 'Maipú'],
-};
+| Prop | Type | Required |
+| --- | --- | --- |
+| `leftItems` | string[] | yes |
+| `rightItems` | string[] | no |
+| `getRightItems` | (left: string | null) => string[] | no |
+| `selectedLeft` | string or null | no |
+| `selectedRight` | string or null | no |
+| `onSelect` | ({ left: string | null, right: string | null }) => void | yes |
 
-<DualPicker
-  placeholder="Selecciona comuna"
-  leftItems={REGIONES}
-  getRightItems={(left) => (left ? COMUNAS[left] ?? [] : [])}
-  onSelect={({ left, right }) => {
-    // left/right are strings or null
-  }}
-/>;
-```
+DatePicker
 
-3) Optional: customize footer actions (replace default Cancel/Select)
+| Prop | Type | Required |
+| --- | --- | --- |
+| `minimumYear` | number | yes |
+| `maximumYear` | number | yes |
+| `initialDate` | Date or string | no |
+| `locale` | string | no |
+| `onSelect` | (value: Date) => void | yes |
 
-```tsx
-<DatePicker
-  minimumYear={2015}
-  maximumYear={2028}
-  renderFooterActions={({ onCancel, onConfirm }) => (
-    <View style={{ width: '100%', paddingHorizontal: 40, marginVertical: 10 }}>
-      <TouchableOpacity onPress={onConfirm} style={{ backgroundColor: '#e50914', paddingVertical: 12, borderRadius: 24, alignItems: 'center' }}>
-        <Text style={{ color: 'white', fontWeight: '700' }}>Seleccionar</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={onCancel} style={{ marginTop: 12, alignItems: 'center' }}>
-        <Text style={{ color: '#e50914' }}>Cancelar</Text>
-      </TouchableOpacity>
-    </View>
-  )}
-  onSelect={(d) => {/* Date result */}}
-/>
-```
+### 🎛️ Custom Trigger
 
-### Data expectations (JSON shapes)
-
-- ListPicker
-  - items: string[]
-  - onSelect: (value: string)
-
-- DualPicker
-  - leftItems: string[]
-  - Provide either:
-    - rightItems: string[] (static), or
-    - getRightItems: (left: string | null) => string[] (dependent)
-  - onSelect: ({ left: string | null, right: string | null })
-
-- MonthYearPicker
-  - minimum, maximum: numbers (year bounds)
-  - onSelect: (date: Date)
-
-- DatePicker
-  - minimumYear, maximumYear: numbers
-  - onSelect: (date: Date)
-
-Common customization
-- placeholder, disabled
-- icons: renderCalendarIcon, renderClearIcon
-- styles: containerStyle, textStyle, iconContainerStyle
-- actions: actionButtonsPosition, leftActionButtonText, rightActionButtonText, showCleaner, renderFooterActions
-
-### Customize the input (trigger)
-
-You can fully control how the input box looks with `renderTrigger`. This replaces the default trigger UI.
+Customize the input with `renderTrigger`.
 
 ```tsx
 <DualPicker
@@ -223,23 +162,34 @@ You can fully control how the input box looks with `renderTrigger`. This replace
         paddingHorizontal: 14, paddingVertical: 12, borderRadius: 8,
       }}
     >
-      <Text style={{ color: '#111827' }}>
-        {displayText || 'Selecciona región / comuna'}
-      </Text>
+      <Text style={{ color: '#111827' }}>{displayText || 'Select region / commune'}</Text>
       <View style={{ width: 10, height: 10, borderRightWidth: 2, borderBottomWidth: 2, borderColor: '#6b7280', transform: [{ rotate: '45deg' }] }} />
     </TouchableOpacity>
   )}
   onSelect={({ left, right }) => {}}
-/>}
-
+/>
 ```
 
-For small tweaks without replacing the trigger, use the style props `containerStyle`, `textStyle`, `iconContainerStyle`, and the boolean `showRightIcon` (default: true).
+### 📱 Example App (Expo)
 
+An `example/` Expo app is included.
+
+```bash
+# from repo root
+npm install
+cd example && npm install && cd ..
+npm run dev:example
 ```
 
-### License
+This runs the library in watch mode and the Expo dev server. Edit `src/` and the example hot-reloads.
 
-MIT
+### 🧪 Local Testing
 
+- Build once: `npm run build`
+- Watch build during development: `npm run dev`
+- Typecheck: `npm run typecheck`
+- Lint: `npm run lint`
 
+### 📄 License
+
+MIT © Azael Contramaestre
